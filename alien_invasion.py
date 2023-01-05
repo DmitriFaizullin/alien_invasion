@@ -8,21 +8,21 @@ class AlienInvasion:
 
     def __init__(self):
         """Инициализирует игру и создает игровые ресурсы."""
-        pygame.init()
+        pygame.init()  # инициализирует настройки
 
-        self.screen = pygame.display.set_mode((1200, 800))
-        pygame.display.set_caption("Alien Invasion")
+        self.screen = pygame.display.set_mode((1200, 800))  # создание окна
+        pygame.display.set_caption("Alien Invasion")  # заголовок окна
+        self.bg_color = (230, 230, 230)  # назначение цвета фона в переменной
 
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
-            # Отслеживание событий клавиатуры и мыши.
-            for event in pygame.event.get():
+            for event in pygame.event.get():  # Отслеживание событий клавиатуры и мыши.
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-            # Отображение последнего прорисованного экрана.
-            pygame.display.flip()
+            self.screen.fill(self.bg_color)  # экран заполняется цветом фона
+            pygame.display.flip()  # Отображение последнего прорисованного экрана.
 
 
 if __name__ == '__main__':
