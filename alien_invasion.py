@@ -22,14 +22,27 @@ class AlienInvasion:
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
-            self._check_events()
-            self._update_screen()
+            self._check_events()  # проверить события
+            self.ship.update()  # изменение положения коробля
+            self._update_screen()  # отобразить новый экран
 
     def _check_events(self):
         """Обрабатывает нажатия клавиш и события мыши."""
         for event in pygame.event.get():  # Отслеживание событий клавиатуры и мыши.
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:  # нажата кнопка клавиатуры
+                if event.key == pygame.K_RIGHT:  # нажата кнопка вправо
+                    # Переместить корабль вправо.
+                    self.ship.moving_right = True
+                elif event.key == pygame.K_LEFT:  # нажата кнопка влево
+                    # Переместить корабль влево.
+                    self.ship.moving_left = True
+            elif event.type == pygame.KEYUP:  # отпущена кнопка клавиатуры
+                if event.key == pygame.K_RIGHT:  # отпущена кнопка вправо
+                    self.ship.moving_right = False
+                elif event.key == pygame.K_LEFT:  # отпущена кнопка влево
+                    self.ship.moving_left = False
 
     def _update_screen(self):
         """Обновляет изображения на экране и отображает новый экран."""
