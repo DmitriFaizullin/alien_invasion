@@ -29,6 +29,7 @@ class AlienInvasion:
         self.ship = Ship(self)  # создается экземпляр класса Ship, ему передается текущий экран
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.bum = pygame.mixer.Sound('bum.mp3')
 
         self._create_fleet()
 
@@ -72,9 +73,7 @@ class AlienInvasion:
             # Сброс игровой статистики
             self.stats.reset_stats()
             self.stats.game_active = True
-            self.sb.prep_score()
-            self.sb.prep_level()
-            self.sb.prep_ships()
+            self.sb.prep_images()
 
             # Очистка списков пришельцев и снарядов
             self.aliens.empty()
@@ -136,6 +135,8 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
+
+            self.bum.play()
             self.sb.prep_score()
             self.sb.check_high_score()
 
@@ -145,9 +146,12 @@ class AlienInvasion:
             self._create_fleet()
             self.settings.inctease_speed()
 
-            # Увеличение уровня.
-            self.stats.level += 1
-            self.sb.prep_level()
+            self._start_new_level()
+
+    def _start_new_level(self):
+        # Увеличение уровня.
+        self.stats.level += 1
+        self.sb.prep_level()
 
     def _updata_aliens(self):
         """Проверяет, достиг ли флот края экрана,
